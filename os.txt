@@ -1,0 +1,81 @@
+import requests
+
+
+
+import json
+
+
+
+import sys
+
+
+
+
+
+# Replace with your actual API key
+
+API_KEY = "AIzaSyAF9l3_fRV92esPjaO9UqMMpzWuMR2cBYU"
+
+text=""
+
+# Endpoint URL
+
+url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key="+API_KEY
+
+if len(sys.argv) > 1:
+
+    text = "Donot answer the question if it is not about terimnal commands"+sys.argv[1]+"in ubuntu terimnal ? i want a simple answer and  simple example usage"
+
+else:
+
+    exit()
+
+# Request payload (data)
+
+data = {
+
+    "contents": [
+
+        {
+
+            "parts": [
+
+                {"text":text}
+
+            ]
+
+        }
+
+    ]
+
+}
+
+
+
+# Headers
+
+headers = {"Content-Type": "application/json"}
+
+
+
+# Send the POST request
+
+response = requests.post(url, headers=headers, json=data)
+
+
+
+# Check for successful response
+
+if response.status_code == 200:
+
+    # Process the response data (JSON format)
+
+    response_data = response.json().get('candidates')[0].get('content').get('parts')[0].get('text')
+
+    print(response_data)  # Print the generated text or other response content
+
+else:
+
+    print(f"Error: {response.status_code}")
+
+    print(response.text)  # Print error details if any
